@@ -5,7 +5,6 @@ public class Skill {
     private String name;
 
     Skill (String fromSource) {
-
         id = Long.valueOf(fromSource.substring(0,1));
         name = fromSource.substring(3);
     }
@@ -25,7 +24,7 @@ public class Skill {
 
     @Override
     public String toString() {
-        return id + "." + name;
+        return id + ". " + name;
     }
 
     @Override
@@ -33,7 +32,7 @@ public class Skill {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Skill skill = (Skill) o;
-        return Objects.equals(id, skill.id) &&
+        return Objects.equals(id, skill.id) ||
                 Objects.equals(name, skill.name);
     }
 
