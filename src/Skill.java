@@ -9,23 +9,28 @@ public class Skill {
         name = fromSource.substring(3);
     }
 
-    Skill (long id, String name){
+
+    Skill (Long id, String name){
         this.id = id;
         this.name = name;
     }
+
 
     public Long getId() {
         return id;
     }
 
+
     public String getName() {
         return name;
     }
+
 
     @Override
     public String toString() {
         return id + ". " + name;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -35,6 +40,7 @@ public class Skill {
         return Objects.equals(id, skill.id) ||
                 Objects.equals(name, skill.name);
     }
+
 
     @Override
     public int hashCode() {

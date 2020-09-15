@@ -1,4 +1,6 @@
-1. Java
+1. UpdateJava
+2. UpC++
 3. UpdateSQL
-4. Maven
-2. C++
+5. pyton
+6. MySQL
+7. PostgreSQL
