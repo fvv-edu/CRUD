@@ -1,11 +1,17 @@
+package controller;
+
+import model.Developer;
+import repository.DeveloperRepository;
+import repository.io.JavaIODeveloperRepositoryImpl;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class SkillController {
-    private SkillRepository repo = new JavaIOSkillRepositoryImpl();
+public class DeveloperController {
+    private DeveloperRepository repo = new JavaIODeveloperRepositoryImpl();
 
-    public Skill getById (Long id) { //++
-        List<Skill> skillList = getAllInternal();
+    public Developer getById (Long id) { //++
+        List<Developer> developerList = getAllInternal();
         boolean result = false;
         try {
             if (id == null) {
@@ -14,7 +20,7 @@ public class SkillController {
             if (id < 0) {
                 throw new IllegalArgumentException();
             }
-            for (Skill x : skillList) {
+            for (Developer x : developerList) {
                 if (x.getId().equals(id)) {
                     result = true;
                     break;
@@ -32,26 +38,26 @@ public class SkillController {
     }
 
 
-    private List<Skill> getAllInternal() {
+    private List<Developer> getAllInternal() {
         return repo.getAll();
     }
 
 
-    public List<Skill> getAll() { //+
+    public List<Developer> getAll() { //+
         return repo.getAll();
     }
 
 
-    public Skill save(Skill skill) { //++
-        List<Skill> skillList = getAllInternal();
-        Skill result = null;
+    public Developer save(Developer developer) { //++
+        List<Developer> developerList = getAllInternal();
+        Developer result = null;
         try {
-            if (skillList.contains(skill)) {
-                throw new IllegalArgumentException("This id or skill is exist");
-            }else if (skill.equals(null)) {
+            if (developerList.contains(developer)) {
+                throw new IllegalArgumentException("This id or developer is exist");
+            }else if (developer.equals(null)) {
                 throw new NullPointerException();
             }else
-                result = repo.save(skill);
+                result = repo.save(developer);
         }catch (IllegalArgumentException | NullPointerException e) {
             System.out.println("Error: " + e);
         }
@@ -59,16 +65,16 @@ public class SkillController {
     }
 
 
-    public Skill update(Skill skill, Skill updateSkill) { //++
-        List<Skill> skillList = getAllInternal();
-        Skill result = null;
+    public Developer update(Developer developer, Developer updateDeveloper) { //++
+        List<Developer> developerList = getAllInternal();
+        Developer result = null;
         try {
-            if (skill.equals(null) || updateSkill.equals(null)) {
+            if (developer.equals(null) || updateDeveloper.equals(null)) {
                 throw new NullPointerException();
-            }else if (!skillList.contains(skill)) {
+            }else if (!developerList.contains(developer)) {
                throw new NoSuchElementException();
            } else {
-                result = repo.update(skill, updateSkill);
+                result = repo.update(developer, updateDeveloper);
             }
         }catch (NullPointerException | NoSuchElementException e) {
             System.out.println("Error: " + e);
@@ -78,9 +84,9 @@ public class SkillController {
 
 
     public void deleteById(Long id) { //++
-        List<Skill> skillList = getAllInternal();
+        List<Developer> developerList = getAllInternal();
         boolean result = false;
-        for (Skill x : skillList) {
+        for (Developer x : developerList) {
             if (x.getId().equals(id)) {
                 result = true;
                 break;

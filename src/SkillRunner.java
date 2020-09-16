@@ -1,4 +1,7 @@
-public class Runner {
+import repository.io.JavaIOSkillRepositoryImpl;
+import view.SkillView;
+
+public class SkillRunner {
     public static void main(String[] args) {
         JavaIOSkillRepositoryImpl sr = new JavaIOSkillRepositoryImpl();
         //Skill m = new Skill(4, "Maven");

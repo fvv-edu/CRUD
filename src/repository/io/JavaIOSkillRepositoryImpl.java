@@ -1,6 +1,9 @@
+package repository.io;
+
+import repository.SkillRepository;
+import model.Skill;
+
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +11,7 @@ import java.util.stream.Stream;
 
 public class JavaIOSkillRepositoryImpl implements SkillRepository {
     private List<Skill> skills;
-    private String fileName = "C:\\IdeaProjects\\CRUD\\skill.txt";
+    private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\skill.txt";
 
     public Skill getById(Long id) { //+
         List<Skill> skillList = getAllInternal();
