@@ -1,4 +1,4 @@
-package repository.io;
+package main.java.com.fvv_edu.crud.repository.io;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,13 +8,24 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import model.Developer;
-import repository.DeveloperRepository;
+
+import main.java.com.fvv_edu.crud.model.Account;
+import main.java.com.fvv_edu.crud.model.Developer;
+import main.java.com.fvv_edu.crud.model.Skill;
+import main.java.com.fvv_edu.crud.repository.AccountRepository;
+import main.java.com.fvv_edu.crud.repository.DeveloperRepository;
+import main.java.com.fvv_edu.crud.repository.SkillRepository;
 
 
 public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
     private List<Developer> developers;
-    private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\developer.txt";
+    private String fileName =
+            "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\developer.txt";
+    private Long developerId;
+    private Long accountId;
+    private String skillIdString;
+    private List <Long> skillId;
+
 
     public Developer getById(Long id) { //+
         List<Developer> developerList = getAllInternal();
@@ -30,17 +41,35 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
 
 
     private List<Developer> getAllInternal() { //+
-        String anyDeveloper;
+        String fromSource;
+        AccountRepository accountRepo = new JavaIOAccountRepositoryImpl();
+        SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
         developers = new ArrayList<Developer>();
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
-            while ((anyDeveloper = br.readLine()) != null) {
-                Developer developerObj = new Developer(anyDeveloper);
-                developers.add(developerObj);
+            while ((fromSource = br.readLine()) != null) {
+                developerId = Long.valueOf(fromSource.substring(0,1));
+                accountId = Long.valueOf(fromSource.substring(3,4));
+                skillIdString = fromSource.substring(6);
+                skillId = convertForObject();
             }
         }catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
+
+        Account account = accountRepo.getById(accountId);
+
+        Skill[] skills = new Skill[skillId.size()];
+        System.out.println("размер skillId из репо " + skillId.size());
+        for (Long x : skillId) {
+            long unboxLong = x;
+            int changeToInt = (int) unboxLong;
+            System.out.println("x из репо "+ x);
+            skills[changeToInt] = skillRepo.getById(x);
+        }
+        Developer developerObj = new Developer(developerId, account, skills);
+        developers.add(developerObj);
+
         return developers;
     }
 
@@ -51,7 +80,22 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
 
 
     private String convertForFile(Developer developer) { //+
-        return (developer.getId() + ". " + developer.getName() + "\n" );
+        return (developer.getId() + ". " + developer.getAccount() + "; " + developer.getSkills() + "\n" );
+    }
+
+    private List<Long> convertForObject(){
+        List<Long> skillIdList = new ArrayList<>();
+        if (skillIdString.length() >= 3) {
+            for (int i = 0; i < skillIdString.length(); ){
+                System.out.println("convertForObject " + Long.valueOf(skillIdString.substring(i,i+1)));
+                skillIdList.add(Long.valueOf(skillIdString.substring(i,i+1)));
+
+                i = i + 3;
+            }
+        } else {
+            skillIdList.add(Long.valueOf(skillIdString.substring(0,1)));
+        }
+        return skillIdList;
     }
 
 
@@ -86,10 +130,10 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
     }
 
 
-    public Developer update(Developer developer, Developer updateDeveloper) { //+
+    public Developer update(Developer oldDeveloper, Developer updateDeveloper) { //+
         List<Developer> developerList = getAllInternal();
-        if (developerList.contains(developer) == true) {
-            int index = developerList.indexOf(developer);
+        if (developerList.contains(oldDeveloper) == true) {
+            int index = developerList.indexOf(oldDeveloper);
             saveInternal(updateDeveloper, index);
         }
         return updateDeveloper;
@@ -119,5 +163,17 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
 
     public List<Developer> getDevelopers() {
         return developers;
+    }
+
+    public Long getDeveloperId() {
+        return developerId;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public List<Long> getSkillId() {
+        return skillId;
     }
 }

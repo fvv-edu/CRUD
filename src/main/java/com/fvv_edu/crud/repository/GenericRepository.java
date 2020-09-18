@@ -1,4 +1,4 @@
-package repository;
+package main.java.com.fvv_edu.crud.repository;
 
 import java.util.List;
 

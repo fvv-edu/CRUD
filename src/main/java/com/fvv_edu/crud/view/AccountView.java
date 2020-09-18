@@ -1,7 +1,7 @@
-package view;
+package main.java.com.fvv_edu.crud.view;
 
-import controller.AccountController;
-import model.Account;
+import main.java.com.fvv_edu.crud.controller.AccountController;
+import main.java.com.fvv_edu.crud.model.Account;
 
 import java.util.Scanner;
 

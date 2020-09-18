@@ -1,8 +1,8 @@
-package controller;
+package main.java.com.fvv_edu.crud.controller;
 
-import model.Account;
-import repository.AccountRepository;
-import repository.io.JavaIOAccountRepositoryImpl;
+import main.java.com.fvv_edu.crud.model.Account;
+import main.java.com.fvv_edu.crud.repository.AccountRepository;
+import main.java.com.fvv_edu.crud.repository.io.JavaIOAccountRepositoryImpl;
 
 import java.util.List;
 import java.util.NoSuchElementException;

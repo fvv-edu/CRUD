@@ -1,14 +1,23 @@
-package controller;
+package main.java.com.fvv_edu.crud.controller;
 
-import model.Developer;
-import repository.DeveloperRepository;
-import repository.io.JavaIODeveloperRepositoryImpl;
+import main.java.com.fvv_edu.crud.model.Account;
+import main.java.com.fvv_edu.crud.model.Developer;
+import main.java.com.fvv_edu.crud.model.Skill;
+import main.java.com.fvv_edu.crud.repository.AccountRepository;
+import main.java.com.fvv_edu.crud.repository.DeveloperRepository;
+import main.java.com.fvv_edu.crud.repository.SkillRepository;
+import main.java.com.fvv_edu.crud.repository.io.JavaIOAccountRepositoryImpl;
+import main.java.com.fvv_edu.crud.repository.io.JavaIODeveloperRepositoryImpl;
+import main.java.com.fvv_edu.crud.repository.io.JavaIOSkillRepositoryImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DeveloperController {
-    private DeveloperRepository repo = new JavaIODeveloperRepositoryImpl();
+    private DeveloperRepository developerRepo = new JavaIODeveloperRepositoryImpl();
+    private SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
+    private AccountRepository accountRepo = new JavaIOAccountRepositoryImpl();
 
     public Developer getById (Long id) { //++
         List<Developer> developerList = getAllInternal();
@@ -34,22 +43,30 @@ public class DeveloperController {
         }catch (NullPointerException | IllegalArgumentException | NoSuchElementException e) {
             System.out.println("Error: " + e);
         }
-        return repo.getById(id);
+        return developerRepo.getById(id);
     }
 
 
     private List<Developer> getAllInternal() {
-        return repo.getAll();
+        return developerRepo.getAll();
     }
 
 
-    public List<Developer> getAll() { //+
-        return repo.getAll();
+    public List<Developer> getAll() { //++
+        return developerRepo.getAll();
     }
 
 
-    public Developer save(Developer developer) { //++
+    public Developer save(Long developerId, Long accountId, List<Long> skillId) { //+++
+        System.out.println("skillId из control" + skillId);
         List<Developer> developerList = getAllInternal();
+        Account account = accountRepo.getById(accountId);
+        Skill[] skills = new Skill[skillId.size()];
+        for (int i = 0; i < skills.length; i++) {
+            skills[i] = skillRepo.getById((long)i);
+        }
+        Developer developer = new Developer(developerId, account, skills);
+        System.out.println(developer);
         Developer result = null;
         try {
             if (developerList.contains(developer)) {
@@ -57,7 +74,7 @@ public class DeveloperController {
             }else if (developer.equals(null)) {
                 throw new NullPointerException();
             }else
-                result = repo.save(developer);
+                result = developerRepo.save(developer);
         }catch (IllegalArgumentException | NullPointerException e) {
             System.out.println("Error: " + e);
         }
@@ -65,16 +82,25 @@ public class DeveloperController {
     }
 
 
-    public Developer update(Developer developer, Developer updateDeveloper) { //++
+    public Developer update(Long developerId, Long accountId, List<Long> skillId) { //++
         List<Developer> developerList = getAllInternal();
+        Account account = accountRepo.getById(accountId);
+        Skill[] skills = new Skill[skillId.size()];
+        long unboxLong = developerId;
+        int changeToInt = (int) unboxLong;
+        for (int i = 0; i < skills.length; i++) {
+            skills[i] = skillRepo.getById((long)i);
+        }
+        Developer oldDeveloper = developerList.get(changeToInt);
+        Developer updateDeveloper = new Developer(developerId, account, skills);
         Developer result = null;
         try {
-            if (developer.equals(null) || updateDeveloper.equals(null)) {
+            if (oldDeveloper.equals(null) || updateDeveloper.equals(null)) {
                 throw new NullPointerException();
-            }else if (!developerList.contains(developer)) {
+            }else if (!developerList.contains(oldDeveloper)) {
                throw new NoSuchElementException();
            } else {
-                result = repo.update(developer, updateDeveloper);
+                result = developerRepo.update(oldDeveloper, updateDeveloper);
             }
         }catch (NullPointerException | NoSuchElementException e) {
             System.out.println("Error: " + e);
@@ -102,7 +128,7 @@ public class DeveloperController {
             }else if (result == false) {
                 throw new NoSuchElementException();
             }else {
-                repo.deleteById(id);
+                developerRepo.deleteById(id);
             }
         }catch (NullPointerException | IllegalArgumentException | NoSuchElementException e) {
             System.out.println("Error: " + e);

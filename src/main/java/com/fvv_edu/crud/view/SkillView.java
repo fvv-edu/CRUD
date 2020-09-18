@@ -1,8 +1,9 @@
-package view;
+package main.java.com.fvv_edu.crud.view;
 
+import java.util.List;
 import java.util.Scanner;
-import controller.SkillController;
-import model.Skill;
+import main.java.com.fvv_edu.crud.controller.SkillController;
+import main.java.com.fvv_edu.crud.model.Skill;
 
 public class SkillView {
     SkillController controller = new SkillController();

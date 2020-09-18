@@ -1,7 +1,7 @@
-package repository.io;
+package main.java.com.fvv_edu.crud.repository.io;
 
-import model.Account;
-import repository.AccountRepository;
+import main.java.com.fvv_edu.crud.model.Account;
+import main.java.com.fvv_edu.crud.repository.AccountRepository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,12 +30,14 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
 
 
     private List<Account> getAllInternal() { //+
-        String anyAccount;
+        String fromSource;
         accounts = new ArrayList<Account>();
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
-            while ((anyAccount = br.readLine()) != null) {
-                Account accountObj = new Account(anyAccount);
+            while ((fromSource = br.readLine()) != null) {
+                Long id = Long.valueOf(fromSource.substring(0,1));
+                String name = fromSource.substring(3);
+                Account accountObj = new Account(id, name);
                 accounts.add(accountObj);
             }
         }catch (IOException e) {

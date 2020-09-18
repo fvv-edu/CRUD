@@ -1,11 +1,11 @@
-package controller;
+package main.java.com.fvv_edu.crud.controller;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import model.Skill;
-import repository.*;
-import repository.io.*;
+import main.java.com.fvv_edu.crud.model.Skill;
+import main.java.com.fvv_edu.crud.repository.*;
+import main.java.com.fvv_edu.crud.repository.io.*;
 
 public class SkillController {
     private SkillRepository repo = new JavaIOSkillRepositoryImpl();

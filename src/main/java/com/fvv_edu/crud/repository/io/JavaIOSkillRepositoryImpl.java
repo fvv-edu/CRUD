@@ -1,7 +1,7 @@
-package repository.io;
+package main.java.com.fvv_edu.crud.repository.io;
 
-import repository.SkillRepository;
-import model.Skill;
+import main.java.com.fvv_edu.crud.repository.SkillRepository;
+import main.java.com.fvv_edu.crud.model.Skill;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,12 +27,14 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
 
 
     private List<Skill> getAllInternal() { //+
-        String anySkill;
+        String fromSource;
         skills = new ArrayList<Skill>();
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
-            while ((anySkill = br.readLine()) != null) {
-                Skill skillObj = new Skill(anySkill);
+            while ((fromSource = br.readLine()) != null) {
+                Long id = Long.valueOf(fromSource.substring(0,1));
+                String name = fromSource.substring(3);
+                Skill skillObj = new Skill(id, name);
                 skills.add(skillObj);
             }
         }catch (IOException e) {
@@ -116,6 +118,11 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
 
     public List<Skill> getSkills() {
         return skills;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(skills);
     }
 }
 
