@@ -60,12 +60,10 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         Account account = accountRepo.getById(accountId);
 
         Skill[] skills = new Skill[skillId.size()];
-        System.out.println("размер skillId из репо " + skillId.size());
         for (Long x : skillId) {
-            long unboxLong = x;
-            int changeToInt = (int) unboxLong;
-            System.out.println("x из репо "+ x);
-            skills[changeToInt] = skillRepo.getById(x);
+            int i = 0;
+            skills[i] = skillRepo.getById(x);
+            i++;
         }
         Developer developerObj = new Developer(developerId, account, skills);
         developers.add(developerObj);
@@ -80,16 +78,22 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
 
 
     private String convertForFile(Developer developer) { //+
-        return (developer.getId() + ". " + developer.getAccount() + "; " + developer.getSkills() + "\n" );
+        String idSkillString = "";
+        for (Skill x : developer.getSkills()) {
+            if (developer.getSkills().indexOf(x) == 0) {
+                idSkillString = String.valueOf(x.getId());
+            }else {
+                idSkillString = idSkillString + ", " + x.getId();
+            }
+        }
+        return (developer.getId() + ". " + developer.getAccount().getId() + "; " + idSkillString + "\n" );
     }
 
     private List<Long> convertForObject(){
         List<Long> skillIdList = new ArrayList<>();
         if (skillIdString.length() >= 3) {
             for (int i = 0; i < skillIdString.length(); ){
-                System.out.println("convertForObject " + Long.valueOf(skillIdString.substring(i,i+1)));
                 skillIdList.add(Long.valueOf(skillIdString.substring(i,i+1)));
-
                 i = i + 3;
             }
         } else {

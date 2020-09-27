@@ -19,7 +19,7 @@ public class DeveloperController {
     private SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
     private AccountRepository accountRepo = new JavaIOAccountRepositoryImpl();
 
-    public Developer getById (Long id) { //++
+    private Developer getByIdInternal (Long id) { //++
         List<Developer> developerList = getAllInternal();
         boolean result = false;
         try {
@@ -46,6 +46,10 @@ public class DeveloperController {
         return developerRepo.getById(id);
     }
 
+    public Developer getById (Long id) { //++
+        return getByIdInternal(id);
+    }
+
 
     private List<Developer> getAllInternal() {
         return developerRepo.getAll();
@@ -58,12 +62,11 @@ public class DeveloperController {
 
 
     public Developer save(Long developerId, Long accountId, List<Long> skillId) { //+++
-        System.out.println("skillId из control" + skillId);
         List<Developer> developerList = getAllInternal();
         Account account = accountRepo.getById(accountId);
         Skill[] skills = new Skill[skillId.size()];
         for (int i = 0; i < skills.length; i++) {
-            skills[i] = skillRepo.getById((long)i);
+            skills[i] = skillRepo.getById((skillId.get(i)));
         }
         Developer developer = new Developer(developerId, account, skills);
         System.out.println(developer);
@@ -85,15 +88,24 @@ public class DeveloperController {
     public Developer update(Long developerId, Long accountId, List<Long> skillId) { //++
         List<Developer> developerList = getAllInternal();
         Account account = accountRepo.getById(accountId);
+        Developer oldDeveloper = null;
         Skill[] skills = new Skill[skillId.size()];
-        long unboxLong = developerId;
-        int changeToInt = (int) unboxLong;
         for (int i = 0; i < skills.length; i++) {
-            skills[i] = skillRepo.getById((long)i);
+            skills[i] = skillRepo.getById((skillId.get(i)));
         }
-        Developer oldDeveloper = developerList.get(changeToInt);
+        System.out.println(developerList.get(0));
+        System.out.println(developerList.get(1));
+        for (Developer x : developerList) {
+            //System.out.println(x);
+            if (x.getId().equals(developerId)) {
+                oldDeveloper = x;
+                break;
+            }
+        }
         Developer updateDeveloper = new Developer(developerId, account, skills);
         Developer result = null;
+        System.out.println(oldDeveloper);
+        System.out.println(updateDeveloper);
         try {
             if (oldDeveloper.equals(null) || updateDeveloper.equals(null)) {
                 throw new NullPointerException();

@@ -39,9 +39,7 @@ public class DeveloperView {
         accountId = scanner.nextLong();
         System.out.println("Enter developer skill id");
         skillId = scanner.nextLong();
-//        long unboxLong = skillId;
-//        int changeToInt = (int) unboxLong;
-        while (skillId >= 0 && skillId <= 9 || skillId == ' '){
+        while (skillId >= 0 && skillId <= 9){
             System.out.println("skillId из view" + skillId);
             skillIdList.add(skillId);
             skillId = scanner.nextLong();
@@ -54,7 +52,7 @@ public class DeveloperView {
         Long developerId;
         Long updateAccountId;
         Long updateSkillId;
-        List<Long> skillIdList = null;
+        List<Long> skillIdList = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter Developer id");

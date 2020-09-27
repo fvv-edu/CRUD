@@ -12,10 +12,11 @@ public class ApplicationRunner {
         CommonView cv = new CommonView();
         JavaIOSkillRepositoryImpl repo = new JavaIOSkillRepositoryImpl();
         List <Skill> s = repo.getAll();
-        System.out.println(repo.toString());
+        //System.out.println(repo.toString());
 
-        cv.dv.save();
-        cv.dv.save();
-        cv.dv.save();
+//        cv.dv.save();
+//        cv.dv.save();
+//        cv.dv.save();
+        cv.dv.update();
     }
 }
