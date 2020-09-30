@@ -5,10 +5,12 @@ import java.util.Objects;
 public class Account {
     private Long id;
     private String name;
+    private AccountStatus status;
 
-    public Account(Long id, String name){
+    public Account(Long id, String name, AccountStatus status){
         this.id = id;
         this.name = name;
+        this.status = status;
     }
 
 
@@ -22,9 +24,14 @@ public class Account {
     }
 
 
+    public AccountStatus getStatus() {
+        return status;
+    }
+
+
     @Override
     public String toString() {
-        return id + ". " + name;
+        return id + ". " + name + ", " + status;
     }
 
 

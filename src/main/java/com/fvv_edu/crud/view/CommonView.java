@@ -1,9 +1,9 @@
 package main.java.com.fvv_edu.crud.view;
 
 public class CommonView {
-    SkillView sv;
+    public SkillView sv;
     public DeveloperView dv;
-    AccountView av;
+    public AccountView av;
 
     public CommonView(){
         sv = new SkillView();

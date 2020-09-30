@@ -42,17 +42,14 @@ public class SkillView {
         String updateName;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter oldSkill id");
+        System.out.println("Enter Skill id");
         id = scanner.nextLong();
         scanner.nextLine();
-        System.out.println("Enter oldSkill name");
-        String oldName = scanner.nextLine();
-        oldSkill = new Skill(id, oldName);
 
         System.out.println("Enter updateSkill name");
         updateName = scanner.nextLine();
         Skill updateSkill = new Skill(id, updateName);
-        controller.update(oldSkill, updateSkill);
+        controller.update(id, updateSkill);
     }
 
 

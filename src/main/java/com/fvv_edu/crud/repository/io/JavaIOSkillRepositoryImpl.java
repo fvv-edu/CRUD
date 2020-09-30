@@ -28,12 +28,13 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
 
     private List<Skill> getAllInternal() { //+
         String fromSource;
-        skills = new ArrayList<Skill>();
+        skills = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
             while ((fromSource = br.readLine()) != null) {
-                Long id = Long.valueOf(fromSource.substring(0,1));
-                String name = fromSource.substring(3);
+                int index = fromSource.indexOf(".", 1);
+                Long id = Long.valueOf(fromSource.substring(0,index));
+                String name = fromSource.substring(index+2);
                 Skill skillObj = new Skill(id, name);
                 skills.add(skillObj);
             }

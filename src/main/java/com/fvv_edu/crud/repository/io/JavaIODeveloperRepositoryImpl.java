@@ -44,7 +44,7 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         String fromSource;
         AccountRepository accountRepo = new JavaIOAccountRepositoryImpl();
         SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
-        developers = new ArrayList<Developer>();
+        developers = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
             while ((fromSource = br.readLine()) != null) {
@@ -52,22 +52,20 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
                 accountId = Long.valueOf(fromSource.substring(3,4));
                 skillIdString = fromSource.substring(6);
                 skillId = convertForObject();
+                Account account = accountRepo.getById(accountId);
+                Skill[] skills = new Skill[skillId.size()];
+                int i = 0;
+                for (Long x : skillId) {
+                    skills[i] = skillRepo.getById(x);
+                    i++;
+                }
+                Developer developerObj = new Developer(developerId, account, skills);
+                developers.add(developerObj);
             }
+
         }catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
-
-        Account account = accountRepo.getById(accountId);
-
-        Skill[] skills = new Skill[skillId.size()];
-        for (Long x : skillId) {
-            int i = 0;
-            skills[i] = skillRepo.getById(x);
-            i++;
-        }
-        Developer developerObj = new Developer(developerId, account, skills);
-        developers.add(developerObj);
-
         return developers;
     }
 

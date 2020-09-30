@@ -3,6 +3,7 @@ package main.java.com.fvv_edu.crud.controller;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import main.java.com.fvv_edu.crud.model.Developer;
 import main.java.com.fvv_edu.crud.model.Skill;
 import main.java.com.fvv_edu.crud.repository.*;
 import main.java.com.fvv_edu.crud.repository.io.*;
@@ -65,18 +66,30 @@ public class SkillController {
     }
 
 
-    public Skill update(Skill skill, Skill updateSkill) { //++
+    public Skill update(Long skillId, Skill updateSkill) { //++
         List<Skill> skillList = getAllInternal();
         Skill result = null;
-        try {
-            if (skill.equals(null) || updateSkill.equals(null)) {
-                throw new NullPointerException();
-            }else if (!skillList.contains(skill)) {
-               throw new NoSuchElementException();
-           } else {
-                result = repo.update(skill, updateSkill);
+        Skill oldSkill = null;
+        boolean isExistName = false;
+        for (Skill x : skillList) {
+            if (x.getId().equals(skillId)) {
+                oldSkill = x;
+                continue;
+            }else if (x.getName().equals(updateSkill)){
+                isExistName = true;
             }
-        }catch (NullPointerException | NoSuchElementException e) {
+        }
+        try {
+            if (oldSkill.equals(null) || updateSkill.equals(null)) {
+                throw new NullPointerException();
+            } else if (!skillList.contains(oldSkill)) {
+                throw new NoSuchElementException();
+            }else if (isExistName == true) {
+                throw new IllegalArgumentException("This name account is exist");
+            }else {
+                result = repo.update(oldSkill, updateSkill);
+            }
+        } catch (NullPointerException | NoSuchElementException | IllegalArgumentException e) {
             System.out.println("Error: " + e);
         }
         return result;

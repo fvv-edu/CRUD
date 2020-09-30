@@ -9,8 +9,6 @@ import main.java.com.fvv_edu.crud.repository.SkillRepository;
 import main.java.com.fvv_edu.crud.repository.io.JavaIOAccountRepositoryImpl;
 import main.java.com.fvv_edu.crud.repository.io.JavaIODeveloperRepositoryImpl;
 import main.java.com.fvv_edu.crud.repository.io.JavaIOSkillRepositoryImpl;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -19,7 +17,8 @@ public class DeveloperController {
     private SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
     private AccountRepository accountRepo = new JavaIOAccountRepositoryImpl();
 
-    private Developer getByIdInternal (Long id) { //++
+
+    public Developer getById (Long id) { //++
         List<Developer> developerList = getAllInternal();
         boolean result = false;
         try {
@@ -27,7 +26,7 @@ public class DeveloperController {
                 throw new NullPointerException();
             }
             if (id < 0) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("id must be more 0");
             }
             for (Developer x : developerList) {
                 if (x.getId().equals(id)) {
@@ -46,10 +45,6 @@ public class DeveloperController {
         return developerRepo.getById(id);
     }
 
-    public Developer getById (Long id) { //++
-        return getByIdInternal(id);
-    }
-
 
     private List<Developer> getAllInternal() {
         return developerRepo.getAll();
@@ -62,6 +57,13 @@ public class DeveloperController {
 
 
     public Developer save(Long developerId, Long accountId, List<Long> skillId) { //+++
+        try {
+            if (developerId < 0 || accountId < 0) {
+                throw new IllegalArgumentException("id must be more 0");
+            }
+        }catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e);
+        }
         List<Developer> developerList = getAllInternal();
         Account account = accountRepo.getById(accountId);
         Skill[] skills = new Skill[skillId.size()];
@@ -69,7 +71,6 @@ public class DeveloperController {
             skills[i] = skillRepo.getById((skillId.get(i)));
         }
         Developer developer = new Developer(developerId, account, skills);
-        System.out.println(developer);
         Developer result = null;
         try {
             if (developerList.contains(developer)) {
@@ -87,16 +88,20 @@ public class DeveloperController {
 
     public Developer update(Long developerId, Long accountId, List<Long> skillId) { //++
         List<Developer> developerList = getAllInternal();
+        try {
+            if (developerId < 0 || accountId < 0) {
+                throw new IllegalArgumentException("id must be more 0");
+            }
+        }catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e);
+        }
         Account account = accountRepo.getById(accountId);
         Developer oldDeveloper = null;
         Skill[] skills = new Skill[skillId.size()];
         for (int i = 0; i < skills.length; i++) {
             skills[i] = skillRepo.getById((skillId.get(i)));
         }
-        System.out.println(developerList.get(0));
-        System.out.println(developerList.get(1));
         for (Developer x : developerList) {
-            //System.out.println(x);
             if (x.getId().equals(developerId)) {
                 oldDeveloper = x;
                 break;
@@ -104,17 +109,17 @@ public class DeveloperController {
         }
         Developer updateDeveloper = new Developer(developerId, account, skills);
         Developer result = null;
-        System.out.println(oldDeveloper);
-        System.out.println(updateDeveloper);
         try {
-            if (oldDeveloper.equals(null) || updateDeveloper.equals(null)) {
+            if (!developerList.contains(oldDeveloper)) {
+               throw new NoSuchElementException("This developer not found");
+            }else if (oldDeveloper.getAccount().equals(account)) {
+            throw new IllegalArgumentException("This developer is exist");
+            }else if (oldDeveloper.equals(null) || updateDeveloper.equals(null)) {
                 throw new NullPointerException();
-            }else if (!developerList.contains(oldDeveloper)) {
-               throw new NoSuchElementException();
-           } else {
+            }else{
                 result = developerRepo.update(oldDeveloper, updateDeveloper);
             }
-        }catch (NullPointerException | NoSuchElementException e) {
+        }catch (NoSuchElementException | IllegalArgumentException  e) {
             System.out.println("Error: " + e);
         }
         return result;
@@ -136,9 +141,9 @@ public class DeveloperController {
             if (id == null) {
                 throw new NullPointerException();
             }else if (id < 0) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("id must be more 0");
             }else if (result == false) {
-                throw new NoSuchElementException();
+                throw new NoSuchElementException("This developer not found");
             }else {
                 developerRepo.deleteById(id);
             }

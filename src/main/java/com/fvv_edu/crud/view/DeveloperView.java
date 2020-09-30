@@ -1,7 +1,6 @@
 package main.java.com.fvv_edu.crud.view;
 
 import main.java.com.fvv_edu.crud.controller.DeveloperController;
-import main.java.com.fvv_edu.crud.model.Account;
 import main.java.com.fvv_edu.crud.model.Developer;
 
 import java.util.ArrayList;
@@ -39,8 +38,7 @@ public class DeveloperView {
         accountId = scanner.nextLong();
         System.out.println("Enter developer skill id");
         skillId = scanner.nextLong();
-        while (skillId >= 0 && skillId <= 9){
-            System.out.println("skillId из view" + skillId);
+        while (skillId >= 0){
             skillIdList.add(skillId);
             skillId = scanner.nextLong();
         }
@@ -61,7 +59,7 @@ public class DeveloperView {
         updateAccountId = scanner.nextLong();
         System.out.println("Enter new skill id");
         updateSkillId = scanner.nextLong();
-        while ( updateSkillId >= 0 &&  updateSkillId <= 9){
+        while ( updateSkillId >= 0){
             skillIdList.add(updateSkillId);
             updateSkillId = scanner.nextLong();
         }
@@ -74,6 +72,5 @@ public class DeveloperView {
         Scanner scanner = new Scanner(System.in);
         Long number = scanner.nextLong();
         controller.deleteById(number);
-
     }
 }

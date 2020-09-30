@@ -1,6 +1,7 @@
 package main.java.com.fvv_edu.crud.repository.io;
 
 import main.java.com.fvv_edu.crud.model.Account;
+import main.java.com.fvv_edu.crud.model.AccountStatus;
 import main.java.com.fvv_edu.crud.repository.AccountRepository;
 
 import java.io.BufferedReader;
@@ -31,13 +32,23 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
 
     private List<Account> getAllInternal() { //+
         String fromSource;
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
+        AccountStatus status = AccountStatus.DELETED;
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
             while ((fromSource = br.readLine()) != null) {
                 Long id = Long.valueOf(fromSource.substring(0,1));
-                String name = fromSource.substring(3);
-                Account accountObj = new Account(id, name);
+                int stringStatusIndex = fromSource.indexOf(",", 3);
+                String name = fromSource.substring(3, stringStatusIndex);
+                Long statusId = Long.valueOf(fromSource.substring(stringStatusIndex+2));
+                if (statusId == 1) {
+                    status = AccountStatus.ACTIVE;
+                }else if (statusId == 2) {
+                    status = AccountStatus.BANNED;
+                }else if (statusId == 3) {
+                    status = AccountStatus.DELETED;
+                }
+                Account accountObj = new Account(id, name, status);
                 accounts.add(accountObj);
             }
         }catch (IOException e) {
@@ -53,7 +64,15 @@ public class JavaIOAccountRepositoryImpl implements AccountRepository {
 
 
     private String convertForFile(Account account) { //+
-        return (account.getId() + ". " + account.getName() + "\n" );
+        Long accountId;
+        if (account.getStatus() == AccountStatus.ACTIVE) {
+            accountId = 1l;
+        }else if (account.getStatus() == AccountStatus.BANNED) {
+            accountId = 2l;
+        }else {
+            accountId = 3l;
+        }
+        return (account.getId() + ". " + account.getName() + ", " + accountId + "\n" );
     }
 
 

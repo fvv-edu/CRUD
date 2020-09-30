@@ -13,7 +13,7 @@ public class Developer {
     public Developer(Long id, Account account, Skill...skill){
         this.id = id;
         this.account = account;
-        skills = new ArrayList<Skill>(skill.length);
+        skills = new ArrayList<>(skill.length);
         for (Skill x : skill) {
             skills.add(x);
         }

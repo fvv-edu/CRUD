@@ -2,6 +2,7 @@ package main.java.com.fvv_edu.crud.view;
 
 import main.java.com.fvv_edu.crud.controller.AccountController;
 import main.java.com.fvv_edu.crud.model.Account;
+import main.java.com.fvv_edu.crud.model.AccountStatus;
 
 import java.util.Scanner;
 
@@ -22,36 +23,35 @@ public class AccountView {
 
 
     public void save() { //++
-        Long id;
-        String name;
+        Long accountId;
+        String accountName;
+        Long statusId;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter account id");
-        id = scanner.nextLong();
+        accountId = scanner.nextLong();
         scanner.nextLine();
         System.out.println("Enter account name");
-        name = scanner.nextLine();
-        Account newAccount = new Account(id, name);
-        controller.save(newAccount);
+        accountName = scanner.nextLine();
+        System.out.println("Enter account status");
+        statusId = scanner.nextLong();
+        controller.save(accountId, accountName, statusId);
     }
 
 
     public void update() { //++
-        Account oldAccount;
-        Long id;
+        Long accountId;
         String updateName;
+        Long updateStatusId;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter oldAccount id");
-        id = scanner.nextLong();
+        System.out.println("Enter account id");
+        accountId = scanner.nextLong();
         scanner.nextLine();
-        System.out.println("Enter oldAccount name");
-        String oldName = scanner.nextLine();
-        oldAccount = new Account(id, oldName);
-
-        System.out.println("Enter updateAccount name");
+        System.out.println("Enter update account name");
         updateName = scanner.nextLine();
-        Account updateAccount = new Account(id, updateName);
-        controller.update(oldAccount, updateAccount);
+        System.out.println("Enter update account status");
+        updateStatusId = scanner.nextLong();
+        controller.update(accountId, updateName, updateStatusId);
     }
 
 
