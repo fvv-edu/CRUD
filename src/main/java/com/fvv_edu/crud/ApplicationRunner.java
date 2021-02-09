@@ -16,12 +16,13 @@ public class ApplicationRunner {
         Skill s = new Skill(1l, "Java");
         Skill s2 = new Skill(2l, "C++");
         Developer d = new Developer(1l, a, s, s2);
-        /*Account a1 = new Account(1l, "Filatov", AccountStatus.BANNED);
+        Account a1 = new Account(1l, "Spect", AccountStatus.BANNED);
         Skill s3 = new Skill(1l, "Java");
         Skill s4 = new Skill(2l, "C++");
-        Developer d1 = new Developer(2l, a1, s3, s4);*/
+        Developer d1 = new Developer(2l, a1, s3, s4);
         //json.convertForJson(d);
-        json.save(d);
+        //json.save(d);
         //json.saveInternal(d1);
+        System.out.println(json.update(d, d1));
     }
 }

@@ -1,4 +1,2 @@
-"Developer{id=1, account=1. Filatov, BANNED, skills=[1. Java, 2. C++]}"
-"Developer{id=1, account=1. Filatov, BANNED, skills=[1. Java, 2. C++]}"
-"Developer{id=1, account=1. Filatov, BANNED, skills=[1. Java, 2. C++]}"
-"Developer{id=1, account=1. Filatov, BANNED, skills=[1. Java, 2. C++]}"
+{"id":2,"skills":[{"id":1,"name":"Java"},{"id":2,"name":"C++"}],"account":{"id":1,"name":"Spect","status":"BANNED"}}
+{"id":2,"skills":[{"id":2,"name":"C++"},{"id":1,"name":"Java"}],"account":{"id":1,"name":"Bulgaru","status":"ACTIVE"}}

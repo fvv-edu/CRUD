@@ -24,7 +24,7 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
     private Long developerId;
     private Long accountId;
     private String skillIdString;
-    private List <Long> skillId;
+    private List<Long> skillId;
 
 
     public Developer getById(Long id) { //+
@@ -46,10 +46,10 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
         developers = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(
-                new FileReader(fileName))){
+                new FileReader(fileName))) {
             while ((fromSource = br.readLine()) != null) {
-                developerId = Long.valueOf(fromSource.substring(0,1));
-                accountId = Long.valueOf(fromSource.substring(3,4));
+                developerId = Long.valueOf(fromSource.substring(0, 1));
+                accountId = Long.valueOf(fromSource.substring(3, 4));
                 skillIdString = fromSource.substring(6);
                 skillId = convertForObject();
                 Account account = accountRepo.getById(accountId);
@@ -63,7 +63,7 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
                 developers.add(developerObj);
             }
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
         return developers;
@@ -80,22 +80,22 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         for (Skill x : developer.getSkills()) {
             if (developer.getSkills().indexOf(x) == 0) {
                 idSkillString = String.valueOf(x.getId());
-            }else {
+            } else {
                 idSkillString = idSkillString + ", " + x.getId();
             }
         }
-        return (developer.getId() + ". " + developer.getAccount().getId() + "; " + idSkillString + "\n" );
+        return (developer.getId() + ". " + developer.getAccount().getId() + "; " + idSkillString + "\n");
     }
 
-    private List<Long> convertForObject(){
+    private List<Long> convertForObject() {
         List<Long> skillIdList = new ArrayList<>();
         if (skillIdString.length() >= 3) {
-            for (int i = 0; i < skillIdString.length(); ){
-                skillIdList.add(Long.valueOf(skillIdString.substring(i,i+1)));
+            for (int i = 0; i < skillIdString.length(); ) {
+                skillIdList.add(Long.valueOf(skillIdString.substring(i, i + 1)));
                 i = i + 3;
             }
         } else {
-            skillIdList.add(Long.valueOf(skillIdString.substring(0,1)));
+            skillIdList.add(Long.valueOf(skillIdString.substring(0, 1)));
         }
         return skillIdList;
     }
@@ -153,29 +153,12 @@ public class JavaIODeveloperRepositoryImpl implements DeveloperRepository {
         developerList.remove(needIndex);
         Stream<String> newStream = developerList.stream().map((n) -> (convertForFile(n)));
         List<String> forFile = newStream.collect(Collectors.toList());
-        try (FileWriter fw = new FileWriter(fileName)){
+        try (FileWriter fw = new FileWriter(fileName)) {
             for (String x : forFile) {
                 fw.write(x);
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
-    }
-
-
-    public List<Developer> getDevelopers() {
-        return developers;
-    }
-
-    public Long getDeveloperId() {
-        return developerId;
-    }
-
-    public Long getAccountId() {
-        return accountId;
-    }
-
-    public List<Long> getSkillId() {
-        return skillId;
     }
 }

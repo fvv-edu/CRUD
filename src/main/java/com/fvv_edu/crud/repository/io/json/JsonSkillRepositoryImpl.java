@@ -1,18 +1,20 @@
-package main.java.com.fvv_edu.crud.repository.io;
+package main.java.com.fvv_edu.crud.repository.io.json;
 
+import com.google.gson.Gson;
 import main.java.com.fvv_edu.crud.model.Developer;
-import main.java.com.fvv_edu.crud.repository.SkillRepository;
 import main.java.com.fvv_edu.crud.model.Skill;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JavaIOSkillRepositoryImpl implements SkillRepository {
-    private List<Skill> skills;
-    private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\skill.txt";
+public class JsonSkillRepositoryImpl {
+    private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\skills.json";
 
 
     public Skill getById(Long id) { //+
@@ -29,15 +31,13 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
 
     private List<Skill> getAllInternal() { //+
         String fromSource;
-        skills = new ArrayList<>();
+        List skills = new ArrayList<>();
+        Gson gson = new Gson();
         try (BufferedReader br = new BufferedReader(
                 new FileReader(fileName))){
             while ((fromSource = br.readLine()) != null) {
-                int index = fromSource.indexOf(".", 1);
-                Long id = Long.valueOf(fromSource.substring(0,index));
-                String name = fromSource.substring(index+2);
-                Skill skillObj = new Skill(id, name);
-                skills.add(skillObj);
+                Skill skill = gson.fromJson(fromSource, Skill.class);
+                skills.add(skill);
             }
         }catch (IOException e) {
             System.out.println("Input/output Error: " + e);
@@ -50,15 +50,22 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
         return getAllInternal();
     }
 
+    private String convertForJson(Developer developer) { //+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(developer);
+        return jsonString + "\n";
+    }
 
-    private String convertForFile(Skill skill) { //+
-        return (skill.getId() + ". " + skill.getName() + "\n" );
+    private String convertForJson(Skill skill) { //+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(skill);
+        return jsonString + "\n";
     }
 
 
     private Skill saveInternal(Skill skill) { //+
         try (FileWriter fw = new FileWriter(fileName, true)) {
-            fw.write(convertForFile(skill));
+            fw.write(convertForJson(skill));
         } catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
@@ -69,7 +76,7 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
     private Skill saveInternal(Skill skill, int index) { //+
         List<Skill> skillList = getAllInternal();
         skillList.set(index, skill);
-        Stream<String> newStream = skillList.stream().map((n) -> (convertForFile(n)));
+        Stream<String> newStream = skillList.stream().map((n) -> (convertForJson(n)));
         List<String> forFile = newStream.collect(Collectors.toList());
         try (FileWriter fw = new FileWriter(fileName)) {
             for (String x : forFile) {
@@ -89,9 +96,9 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
 
     public Skill update(Skill skill, Skill updateSkill) { //+
         List<Skill> skillList = getAllInternal();
-            if (skillList.contains(skill) == true) {
-                int index = skillList.indexOf(skill);
-                saveInternal(updateSkill, index);
+        if (skillList.contains(skill) == true) {
+            int index = skillList.indexOf(skill);
+            saveInternal(updateSkill, index);
         }
         return updateSkill;
     }
@@ -106,27 +113,14 @@ public class JavaIOSkillRepositoryImpl implements SkillRepository {
             }
         }
         skillList.remove(needIndex);
-        Stream<String> newStream = skillList.stream().map((n) -> (convertForFile(n)));
+        Stream<String> newStream = skillList.stream().map((n) -> (convertForJson(n)));
         List<String> forFile = newStream.collect(Collectors.toList());
         try (FileWriter fw = new FileWriter(fileName)){
-           for (String x : forFile) {
+            for (String x : forFile) {
                 fw.write(x);
-           }
+            }
         }catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
     }
-
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(skills);
-    }
 }
-
-
-
