@@ -6,19 +6,20 @@ import main.java.com.fvv_edu.crud.model.Skill;
 import main.java.com.fvv_edu.crud.repository.AccountRepository;
 import main.java.com.fvv_edu.crud.repository.DeveloperRepository;
 import main.java.com.fvv_edu.crud.repository.SkillRepository;
-import main.java.com.fvv_edu.crud.repository.io.JavaIOAccountRepositoryImpl;
-import main.java.com.fvv_edu.crud.repository.io.JavaIODeveloperRepositoryImpl;
-import main.java.com.fvv_edu.crud.repository.io.JavaIOSkillRepositoryImpl;
+import main.java.com.fvv_edu.crud.repository.io.json.JsonAccountRepositoryImpl;
+import main.java.com.fvv_edu.crud.repository.io.json.JsonDeveloperRepositoryImpl;
+import main.java.com.fvv_edu.crud.repository.io.json.JsonSkillRepositoryImpl;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DeveloperController {
-    private DeveloperRepository developerRepo = new JavaIODeveloperRepositoryImpl();
-    private SkillRepository skillRepo = new JavaIOSkillRepositoryImpl();
-    private AccountRepository accountRepo = new JavaIOAccountRepositoryImpl();
+    private DeveloperRepository developerRepo = new JsonDeveloperRepositoryImpl();
+    private SkillRepository skillRepo = new JsonSkillRepositoryImpl();
+    private AccountRepository accountRepo = new JsonAccountRepositoryImpl();
 
 
-    public Developer getById (Long id) { //++
+    public Developer getById (Long id) { //+
         List<Developer> developerList = getAllInternal();
         boolean result = false;
         try {
@@ -56,7 +57,7 @@ public class DeveloperController {
     }
 
 
-    public Developer save(Long developerId, Long accountId, List<Long> skillId) { //+++
+    public Developer save(Long developerId, Long accountId, List<Long> skillId) { //+
         try {
             if (developerId < 0 || accountId < 0) {
                 throw new IllegalArgumentException("id must be more 0");

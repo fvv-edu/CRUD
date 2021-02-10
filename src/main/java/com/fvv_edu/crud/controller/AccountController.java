@@ -3,13 +3,13 @@ package main.java.com.fvv_edu.crud.controller;
 import main.java.com.fvv_edu.crud.model.Account;
 import main.java.com.fvv_edu.crud.model.AccountStatus;
 import main.java.com.fvv_edu.crud.repository.AccountRepository;
-import main.java.com.fvv_edu.crud.repository.io.JavaIOAccountRepositoryImpl;
+import main.java.com.fvv_edu.crud.repository.io.json.JsonAccountRepositoryImpl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class AccountController {
-    private AccountRepository repo = new JavaIOAccountRepositoryImpl();
+    private AccountRepository repo = new JsonAccountRepositoryImpl();
 
     public Account getById (Long id) { //++
         List<Account> accountList = getAllInternal();
