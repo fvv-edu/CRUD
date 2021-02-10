@@ -3,6 +3,7 @@ package main.java.com.fvv_edu.crud.repository.io.json;
 import com.google.gson.Gson;
 import main.java.com.fvv_edu.crud.model.Developer;
 import main.java.com.fvv_edu.crud.model.Skill;
+import main.java.com.fvv_edu.crud.repository.SkillRepository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JsonSkillRepositoryImpl {
+public class JsonSkillRepositoryImpl implements SkillRepository {
     private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\skills.json";
 
 
@@ -94,10 +95,10 @@ public class JsonSkillRepositoryImpl {
     }
 
 
-    public Skill update(Skill skill, Skill updateSkill) { //+
+    public Skill update(Skill oldSkill, Skill updateSkill) { //+
         List<Skill> skillList = getAllInternal();
-        if (skillList.contains(skill) == true) {
-            int index = skillList.indexOf(skill);
+        if (skillList.contains(oldSkill) == true) {
+            int index = skillList.indexOf(oldSkill);
             saveInternal(updateSkill, index);
         }
         return updateSkill;
