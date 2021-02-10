@@ -13,7 +13,7 @@ import java.io.FileWriter;
 public class ApplicationRunner {
     public static void main(String[] args) {
         CommonView cv = new CommonView();
-        cv.dv.save();
+        cv.dv.getDeveloperById();
 
     }
 }

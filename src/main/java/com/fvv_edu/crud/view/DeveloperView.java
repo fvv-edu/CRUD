@@ -9,15 +9,49 @@ import java.util.Scanner;
 
 public class DeveloperView {
     DeveloperController controller = new DeveloperController();
+    private Scanner scanner;
+
+
+    private Long enterDeveloperId () {
+        System.out.println("Enter developer id");
+        if (scanner == null) {
+            scanner = new Scanner(System.in);
+        }
+        Long id = scanner.nextLong();
+        return id;
+    }
+
+
+    private Long enterAccountId () {
+        System.out.println("Enter developer account id");
+        if (scanner == null) {
+            scanner = new Scanner(System.in);
+        }
+        Long id = scanner.nextLong();
+        return id;
+    }
+
+
+    private List enterSkillId () {
+        List<Long> skillIdList = new ArrayList<>();
+        System.out.println("Enter developer skill id");
+        if (scanner == null) {
+            scanner = new Scanner(System.in);
+        }
+        Long id = scanner.nextLong();
+        while (id >= 0){
+            skillIdList.add(id);
+            id = scanner.nextLong();
+        }
+        return skillIdList;
+    }
+
 
     public void getDeveloperById() { //+
-        System.out.println("Enter developer id");
-        Scanner scanner = new Scanner(System.in);
-        Long number = scanner.nextLong();
-        Developer developer = controller.getById(number);
+        Developer developer = controller.getById(enterDeveloperId());
         System.out.println(developer);
-
     }
+
 
     public void getAll() {
         controller.getAll();
@@ -25,52 +59,23 @@ public class DeveloperView {
 
 
     public void save() { //+
-        Long developerId;
-        Long accountId;
-        Long skillId;
-        List<Long> skillIdList = new ArrayList<>();
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter developer id");
-        developerId = scanner.nextLong();
-        scanner.nextLine();
-        System.out.println("Enter developer account id");
-        accountId = scanner.nextLong();
-        System.out.println("Enter developer skill id");
-        skillId = scanner.nextLong();
-        while (skillId >= 0){
-            skillIdList.add(skillId);
-            skillId = scanner.nextLong();
-        }
+        Long developerId = enterDeveloperId();
+        Long accountId = enterAccountId();
+        List<Long> skillIdList = enterSkillId();
         controller.save(developerId, accountId, skillIdList);
     }
 
 
     public void update() { //+
-        Long developerId;
-        Long updateAccountId;
-        Long updateSkillId;
-        List<Long> skillIdList = new ArrayList<>();
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Developer id");
-        developerId = scanner.nextLong();
-        System.out.println("Enter new account id");
-        updateAccountId = scanner.nextLong();
-        System.out.println("Enter new skill id");
-        updateSkillId = scanner.nextLong();
-        while ( updateSkillId >= 0){
-            skillIdList.add(updateSkillId);
-            updateSkillId = scanner.nextLong();
-        }
+        Long developerId = enterDeveloperId();
+        Long updateAccountId = enterAccountId();
+        List<Long> skillIdList = enterSkillId();
         controller.update(developerId, updateAccountId, skillIdList);
     }
 
 
     public void deleteById() { //+
-        System.out.println("Enter developer id");
-        Scanner scanner = new Scanner(System.in);
-        Long number = scanner.nextLong();
-        controller.deleteById(number);
+        Long id = enterDeveloperId();
+        controller.deleteById(id);
     }
 }

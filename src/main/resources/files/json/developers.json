@@ -1,3 +1,3 @@
-
 {"id":1,"skills":[null,null,null,null],"account":{"id":1,"name":"Spect","status":"BANNED"}}
 {"id":2,"skills":[{"id":2,"name":"C++"},{"id":3,"name":"Python"}],"account":{"id":2,"name":"Bulgaru","status":"ACTIVE"}}
+{"id":3,"skills":[{"id":1,"name":"Java"},{"id":4,"name":"Scala"},{"id":3,"name":"Python"}],"account":{"id":3,"name":"Fil","status":"ACTIVE"}}
