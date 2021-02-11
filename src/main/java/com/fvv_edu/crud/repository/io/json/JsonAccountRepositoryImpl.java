@@ -17,9 +17,8 @@ public class JsonAccountRepositoryImpl implements AccountRepository {
     private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\accounts.json";
 
     public Account getById(Long id) { //+
-        List<Account> accountList = getAllInternal();
         Account needAccount = null;
-        for (Account x : accountList) {
+        for (Account x : getAllInternal()) {
             if (x.getId().equals(id)) {
                 needAccount = x;
                 break;

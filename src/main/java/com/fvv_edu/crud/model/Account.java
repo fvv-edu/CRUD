@@ -2,7 +2,7 @@ package main.java.com.fvv_edu.crud.model;
 
 import java.util.Objects;
 
-public class Account {
+public class Account extends GenericModel{
     private Long id;
     private String name;
     private AccountStatus status;

@@ -2,7 +2,7 @@ package main.java.com.fvv_edu.crud.model;
 
 import java.util.Objects;
 
-public class Skill {
+public class Skill extends GenericModel{
     private Long id;
     private String name;
 

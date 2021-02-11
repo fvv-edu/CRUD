@@ -69,7 +69,7 @@ public class AccountController {
         Account result = null;
         try {
             if (accountList.contains(newAccount)) {
-                throw new IllegalArgumentException("This id or account is exist");
+                throw new IllegalArgumentException("This account is exist");
             }else if (newAccount.equals(null)) {
                 throw new NullPointerException();
             }else

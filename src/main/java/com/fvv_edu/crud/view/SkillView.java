@@ -38,7 +38,7 @@ public class SkillView {
     }
 
 
-    public void save() { //++
+    public void save() { //+
         Long id = enterSkillId();
         String name = enterSkillName();
         Skill newSkill = new Skill(id, name);
@@ -46,27 +46,15 @@ public class SkillView {
     }
 
 
-    public void update() { //++
-        Skill oldSkill;
-        Long id;
-        String updateName;
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Skill id");
-        id = scanner.nextLong();
-        scanner.nextLine();
-
-        System.out.println("Enter updateSkill name");
-        updateName = scanner.nextLine();
+    public void update() { //+
+        Long id = enterSkillId();
+        String updateName = enterSkillName();
         Skill updateSkill = new Skill(id, updateName);
         controller.update(id, updateSkill);
     }
 
 
-    public void deleteById() { //++
-        System.out.println("Enter skill id");
-        Scanner scanner = new Scanner(System.in);
-        Long number = scanner.nextLong();
-        controller.deleteById(number);
+    public void deleteById() { //+
+        controller.deleteById(enterSkillId());
     }
 }

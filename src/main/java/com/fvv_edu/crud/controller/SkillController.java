@@ -7,11 +7,11 @@ import main.java.com.fvv_edu.crud.model.Skill;
 import main.java.com.fvv_edu.crud.repository.*;
 import main.java.com.fvv_edu.crud.repository.io.json.JsonSkillRepositoryImpl;
 
-public class SkillController {
+public class SkillController extends AbstractController<Skill>{
     private SkillRepository repo = new JsonSkillRepositoryImpl();
 
-    public Skill getById (Long id) { //++
-        List<Skill> skillList = getAllInternal();
+    public Skill getById (Long id, SkillRepository repo) { //++
+        /*List<Skill> skillList = getAllInternal();
         boolean result = false;
         try {
             if (id == null) {
@@ -34,7 +34,7 @@ public class SkillController {
         }catch (NullPointerException | IllegalArgumentException | NoSuchElementException e) {
             System.out.println("Error: " + e);
         }
-        return repo.getById(id);
+        return repo.getById(id);*/
     }
 
 

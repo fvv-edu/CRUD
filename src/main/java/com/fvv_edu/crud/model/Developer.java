@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Developer {
+public class Developer extends GenericModel{
     private Long id;
     private List<Skill> skills;
     private Account account;

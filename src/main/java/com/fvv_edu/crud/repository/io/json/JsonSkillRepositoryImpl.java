@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JsonSkillRepositoryImpl implements SkillRepository {
+public class JsonSkillRepositoryImpl extends AbstractRepository implements SkillRepository {
     private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\skills.json";
 
 
@@ -51,11 +51,6 @@ public class JsonSkillRepositoryImpl implements SkillRepository {
         return getAllInternal();
     }
 
-    private String convertForJson(Developer developer) { //+
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(developer);
-        return jsonString + "\n";
-    }
 
     private String convertForJson(Skill skill) { //+
         Gson gson = new Gson();
