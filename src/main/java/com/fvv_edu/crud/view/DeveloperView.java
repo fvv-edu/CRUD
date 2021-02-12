@@ -5,49 +5,35 @@ import main.java.com.fvv_edu.crud.model.Developer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class DeveloperView {
+public class DeveloperView extends AbstractView implements GenericView {
     DeveloperController controller = new DeveloperController();
-    private Scanner scanner;
-
 
     private Long enterDeveloperId () {
         System.out.println("Enter developer id");
-        if (scanner == null) {
-            scanner = new Scanner(System.in);
-        }
-        Long id = scanner.nextLong();
-        return id;
+        return InternalScanner(1l);
     }
 
 
     private Long enterAccountId () {
         System.out.println("Enter developer account id");
-        if (scanner == null) {
-            scanner = new Scanner(System.in);
-        }
-        Long id = scanner.nextLong();
-        return id;
+        return InternalScanner(1l);
     }
 
 
     private List enterSkillId () {
         List<Long> skillIdList = new ArrayList<>();
         System.out.println("Enter developer skill id");
-        if (scanner == null) {
-            scanner = new Scanner(System.in);
-        }
-        Long id = scanner.nextLong();
+        Long id = InternalScanner(1l);
         while (id >= 0){
             skillIdList.add(id);
-            id = scanner.nextLong();
+            id = InternalScanner(1l);
         }
         return skillIdList;
     }
 
 
-    public void getDeveloperById() { //+
+    public void getById() { //+
         Developer developer = controller.getById(enterDeveloperId());
         System.out.println(developer);
     }

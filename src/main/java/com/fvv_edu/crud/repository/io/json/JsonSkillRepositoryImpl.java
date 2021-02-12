@@ -1,122 +1,47 @@
 package main.java.com.fvv_edu.crud.repository.io.json;
 
 import com.google.gson.Gson;
-import main.java.com.fvv_edu.crud.model.Developer;
+import main.java.com.fvv_edu.crud.model.GenericModel;
 import main.java.com.fvv_edu.crud.model.Skill;
 import main.java.com.fvv_edu.crud.repository.SkillRepository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class JsonSkillRepositoryImpl extends AbstractRepository implements SkillRepository {
-    private String fileName = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\skills.json";
+public class JsonSkillRepositoryImpl extends AbstractRepository<Skill, Long> implements SkillRepository {
 
-
-    public Skill getById(Long id) { //+
-        Skill needSkill = null;
-        for (Skill x : getAllInternal()) {
-            if (x.getId().equals(id)) {
-                needSkill = x;
-                break;
-            }
+    private String choiceFilePath(int i) { // перенести в другой слой
+        String filePath;
+        if (i == 1) {
+            filePath = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\skills.json";
+        }else if (i == 2){
+            filePath = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\accounts.json";
+        }else if (i == 3){
+            filePath = "C:\\IdeaProjects\\CRUD\\src\\main\\resources\\files\\json\\developers.json";
+        }else {
+            System.out.println("This path is not found"); // исправить на эксепшн
+            filePath = null;
         }
-        return needSkill;
+        return filePath;
     }
 
-
-    private List<Skill> getAllInternal() { //+
+    public List<Skill> getAllInternal() { //+
+        String filePath = choiceFilePath(1);
         String fromSource;
-        List skills = new ArrayList<>();
+        List <Skill> objects = new ArrayList<>();
         Gson gson = new Gson();
         try (BufferedReader br = new BufferedReader(
-                new FileReader(fileName))){
+                new FileReader(filePath))){ //потом исправить параметр
             while ((fromSource = br.readLine()) != null) {
-                Skill skill = gson.fromJson(fromSource, Skill.class);
-                skills.add(skill);
+                Skill object = gson.fromJson(fromSource, Skill.class);
+                objects.add(object);
             }
         }catch (IOException e) {
             System.out.println("Input/output Error: " + e);
         }
-        return skills;
-    }
-
-
-    public List<Skill> getAll() { //+
-        return getAllInternal();
-    }
-
-
-    private String convertForJson(Skill skill) { //+
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(skill);
-        return jsonString + "\n";
-    }
-
-
-    private Skill saveInternal(Skill skill) { //+
-        try (FileWriter fw = new FileWriter(fileName, true)) {
-            fw.write(convertForJson(skill));
-        } catch (IOException e) {
-            System.out.println("Input/output Error: " + e);
-        }
-        return skill;
-    }
-
-
-    private Skill saveInternal(Skill skill, int index) { //+
-        List<Skill> skillList = getAllInternal();
-        skillList.set(index, skill);
-        Stream<String> newStream = skillList.stream().map((n) -> (convertForJson(n)));
-        List<String> forFile = newStream.collect(Collectors.toList());
-        try (FileWriter fw = new FileWriter(fileName)) {
-            for (String x : forFile) {
-                fw.write(x);
-            }
-        } catch (IOException e) {
-            System.out.println("Input/output Error: " + e);
-        }
-        return skill;
-    }
-
-
-    public Skill save(Skill skill) {
-        return saveInternal(skill);
-    }
-
-
-    public Skill update(Skill oldSkill, Skill updateSkill) { //+
-        List<Skill> skillList = getAllInternal();
-        if (skillList.contains(oldSkill) == true) {
-            int index = skillList.indexOf(oldSkill);
-            saveInternal(updateSkill, index);
-        }
-        return updateSkill;
-    }
-
-
-    public void deleteById(Long id) { //+
-        List<Skill> skillList = getAllInternal();
-        int needIndex = 0;
-        for (Skill x : skillList) {
-            if (x.getId().equals(id)) {
-                needIndex = skillList.indexOf(x);
-            }
-        }
-        skillList.remove(needIndex);
-        Stream<String> newStream = skillList.stream().map((n) -> (convertForJson(n)));
-        List<String> forFile = newStream.collect(Collectors.toList());
-        try (FileWriter fw = new FileWriter(fileName)){
-            for (String x : forFile) {
-                fw.write(x);
-            }
-        }catch (IOException e) {
-            System.out.println("Input/output Error: " + e);
-        }
+        return objects;
     }
 }

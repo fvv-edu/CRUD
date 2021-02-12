@@ -4,7 +4,7 @@ import java.util.Scanner;
 import main.java.com.fvv_edu.crud.controller.SkillController;
 import main.java.com.fvv_edu.crud.model.Skill;
 
-public class SkillView {
+public class SkillView implements GenericView {
     SkillController controller = new SkillController();
     private Scanner scanner;
 
@@ -28,7 +28,7 @@ public class SkillView {
     }
 
 
-    public void getSkillById () { //+
+    public void getById () { //+
             Skill skill = controller.getById(enterSkillId());
             System.out.println(skill);
     }

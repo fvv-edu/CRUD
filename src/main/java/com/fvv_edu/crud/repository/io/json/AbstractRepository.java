@@ -44,22 +44,8 @@ public abstract class AbstractRepository <T extends GenericModel,ID extends Numb
     }
 
 
-    private List<T> getAllInternal() { //+
-        String filePath = choiceFilePath(1);
-        String fromSource;
-        List <T> objects = new ArrayList<>();
-        Gson gson = new Gson();
-        try (BufferedReader br = new BufferedReader(
-                new FileReader(filePath))){ //потом исправить параметр
-            while ((fromSource = br.readLine()) != null) {
-                T object = (T) gson.fromJson(fromSource, GenericModel.class);
-                objects.add(object);
-            }
-        }catch (IOException e) {
-            System.out.println("Input/output Error: " + e);
-        }
-        return objects;
-    }
+    public abstract List<T> getAllInternal(); //+
+
 
 
     @Override
@@ -86,11 +72,11 @@ public abstract class AbstractRepository <T extends GenericModel,ID extends Numb
     }
 
 
-    private T saveInternal(T object, int id) { //+
+    private T saveInternal(T object, ID id) { //+
         String filePath = choiceFilePath(1);
-        List<T> skillList = getAllInternal();
-        skillList.set(id, object);
-        Stream<String> newStream = skillList.stream().map((n) -> (convertForJson(n)));
+        List<T> objectList = getAllInternal();
+        objectList.set((int)id, object);
+        Stream<String> newStream = objectList.stream().map((n) -> (convertForJson(n)));
         List<String> forFile = newStream.collect(Collectors.toList());
         try (FileWriter fw = new FileWriter(filePath)) {
             for (String x : forFile) {
@@ -128,8 +114,9 @@ public abstract class AbstractRepository <T extends GenericModel,ID extends Numb
     public T update(T oldObject, T updateObject) {
         List<T> objectList = getAllInternal();
         if (objectList.contains(oldObject) == true) {
-            int index = objectList.indexOf(oldObject);
-            saveInternal(updateObject, index);
+            long index = objectList.indexOf(oldObject);
+            Long id = index;
+            saveInternal(updateObject, (ID) id);
         }
         return updateObject;
     }

@@ -10,7 +10,7 @@ import main.java.com.fvv_edu.crud.repository.io.json.JsonSkillRepositoryImpl;
 public class SkillController extends AbstractController<Skill>{
     private SkillRepository repo = new JsonSkillRepositoryImpl();
 
-    public Skill getById (Long id, SkillRepository repo) { //++
+    public Skill getById (Long id) { //++
         /*List<Skill> skillList = getAllInternal();
         boolean result = false;
         try {
@@ -35,6 +35,7 @@ public class SkillController extends AbstractController<Skill>{
             System.out.println("Error: " + e);
         }
         return repo.getById(id);*/
+        return null;
     }
 
 

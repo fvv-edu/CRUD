@@ -12,8 +12,8 @@ import java.io.FileWriter;
 
 public class ApplicationRunner {
     public static void main(String[] args) {
-        CommonView cv = new CommonView();
-        cv.dv.getDeveloperById();
+        CommonView cv = new CommonView(1);
+        cv.gv.getById();
 
     }
 }

@@ -4,42 +4,30 @@ import main.java.com.fvv_edu.crud.controller.AccountController;
 import main.java.com.fvv_edu.crud.model.Account;
 import java.util.Scanner;
 
-public class AccountView {
+public class AccountView extends AbstractView implements GenericView {
     AccountController controller = new AccountController();
     private Scanner scanner;
 
 
     private Long enterAccountId () {
         System.out.println("Enter account id");
-        if (scanner == null) {
-            scanner = new Scanner(System.in);
-        }
-        Long id = scanner.nextLong();
-        return id;
+        return InternalScanner(1l);
     }
 
 
     private String enterAccountName () {
         System.out.println("Enter account name");
-        if (scanner == null) {
-            scanner = new Scanner(System.in);
-        }
-        String accountName = scanner.nextLine();
-        return accountName;
+        return InternalScanner("");
     }
 
 
     private Long enterStatusId () {
         System.out.println("Enter account status id");
-        if (scanner == null) {
-            scanner = new Scanner(System.in);
-        }
-        Long statusId = scanner.nextLong();
-        return statusId;
+        return InternalScanner(1l);
     }
 
 
-    public void getAccountById() { //+
+    public void getById() { //+
         Account account = controller.getById(enterAccountId());
         System.out.println(account);
     }
